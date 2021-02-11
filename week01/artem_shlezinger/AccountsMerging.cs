@@ -5,39 +5,42 @@ namespace Algorithms
 {
     class AccountsMerging
     {
-        int[] idxArr = new int[10001];
-        int[] sizesArr = new int[10001];
+        int[] idxArr, sizesArr;
 
-        public AccountsMerging()
+        public AccountsMerging(int n)
         {
-            for (int i = 0; i <= 10000; ++i)
+            idxArr = new int[n];
+            sizesArr = new int[n];
+
+            for (int i = 0; i < n; ++i)
                 idxArr[i] = i;
         }
 
         public int FindRoot(int x)
         {
-            if (idxArr[x] != x)
+            while(idxArr[x] != x)
             {
                 idxArr[x] = idxArr[idxArr[x]];
-                idxArr[x] = FindRoot(idxArr[x]);
+                x = idxArr[x];
             }
-            return idxArr[x];
+
+            return x;
         }
 
         public void Union(int u, int v)
         {
-            int rootU = FindRoot(u);
-            int rootV = FindRoot(v);
+            int uRoot = FindRoot(u);
+            int vRoot = FindRoot(v);
 
-            if (sizesArr[rootU] > sizesArr[rootV])
+            if (sizesArr[uRoot] > sizesArr[vRoot])
             {
-                idxArr[rootV] = rootU;
-                sizesArr[rootU] += sizesArr[rootV];
+                idxArr[vRoot] = uRoot;
+                sizesArr[uRoot] += sizesArr[vRoot];
             }
             else
             {
-                idxArr[rootU] = rootV;
-                sizesArr[rootV] += sizesArr[rootU];
+                idxArr[uRoot] = vRoot;
+                sizesArr[vRoot] += sizesArr[uRoot];
             }
         }
 
@@ -68,7 +71,6 @@ namespace Algorithms
                     Union(emailIDsDict[account[1]], emailIDsDict[email]);
                 }
             }
-
 
             Dictionary<int, List<string>> finalDict = new Dictionary<int, List<string>>();
 

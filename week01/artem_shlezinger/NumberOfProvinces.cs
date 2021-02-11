@@ -2,44 +2,44 @@
 {
     class NumberOfProvinces
     {
-        int[] idxArr = new int[201];
-        int[] sizesArr = new int[201];
-
-        public NumberOfProvinces()
+        int[] idxArr, sizesArr;
+        
+        public NumberOfProvinces(int n)
         {
-            for (int i = 0; i < 201; i++)
+            idxArr = new int[n];
+            sizesArr = new int[n];
+
+            for (int i = 0; i < n; i++)
                 idxArr[i] = i;
         }
 
         private int FindRoot(int u)
         {
-            if (idxArr[u] != u)
+            while(idxArr[u] != u)
             {
                 idxArr[u] = idxArr[idxArr[u]];
-                idxArr[u] = FindRoot(idxArr[u]);
+                u = idxArr[u];
             }
 
-            return idxArr[u];
+            return u;
         }
 
         private void Union(int u, int v)
         {
-            int rootU = FindRoot(u);
-            int rootV = FindRoot(v);
+            int uRoot = FindRoot(u);
+            int vRoot = FindRoot(v);
 
-            if(sizesArr[rootU] > sizesArr[rootV])
+            if(sizesArr[uRoot] > sizesArr[vRoot])
             {
-                idxArr[rootV] = rootU;
-                sizesArr[rootU] += sizesArr[rootV];
+                idxArr[vRoot] = uRoot;
+                sizesArr[uRoot] += sizesArr[vRoot];
             }
             else
             {
-                idxArr[rootU] = rootV;
-                sizesArr[rootV] += sizesArr[rootU];
+                idxArr[uRoot] = vRoot;
+                sizesArr[vRoot] += sizesArr[uRoot];
             }
         }
-
-
 
         public int FindCircleNum(int[][] isConnected)
         {
@@ -49,7 +49,6 @@
                 for (int j = i + 1; j < arrLen; j++)
                     if (isConnected[i][j] == 1)
                         Union(i, j);
-
 
             int res = 0;
 
