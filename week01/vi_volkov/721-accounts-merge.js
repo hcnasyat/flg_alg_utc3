@@ -1,4 +1,4 @@
-const UnionFind = require('./implementations/weighted-quick-union');
+const UnionFind = require('./union-find-implementations/weighted-quick-union');
 // TODO: find out actual time complexity of algorithm as not clear what is T of union and find
 function mergeAccounts(arr) {
     const emailMap = new Map();

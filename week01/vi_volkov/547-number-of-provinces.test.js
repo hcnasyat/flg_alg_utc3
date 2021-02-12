@@ -1,4 +1,4 @@
-const getNumberOfProvinces = require('./union-find-implementations');
+const getNumberOfProvinces = require('./547-number-of-provinces');
 
 const testData = [
     [
