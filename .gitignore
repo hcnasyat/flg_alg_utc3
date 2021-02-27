@@ -1,2 +1,12 @@
-node_modules
-.history
+# Python .pyc files
+__pycache__/
+*.py[cod]
+*~
+
+# PyCharm files
+.idea
+
+# Other
+tmp/
+notes/
+.gitignore
