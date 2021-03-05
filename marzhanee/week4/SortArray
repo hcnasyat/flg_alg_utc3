@@ -1,0 +1,50 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        if(nums.length <= 1) {
+            return nums;
+        }
+    
+        int mid = nums.length / 2;
+        int[] left = new int[mid];
+        int[] right = new int[nums.length - mid];
+    
+        for(int i = 0; i < mid; i++) {
+            left[i] = nums[i];
+        }
+    
+        for(int i = mid; i < nums.length; i++) {
+            right[i-mid] = nums[i];
+        }
+    
+        left = sortArray(left);
+        right = sortArray(right);
+        return merge(left,right);
+    
+    }
+        
+        
+    public int[] merge(int[] array1, int[] array2) {
+        int[] results = new int[array1.length + array2.length];
+        int i = 0, j = 0, r = 0;
+    
+        while(i < array1.length && j < array2.length) {      
+            if(array1[i] < array2[j]) {        
+                results[r++] = array1[i++];  
+            }
+            else {
+              results[r++] = array2[j++];  
+            }  
+        } 
+    
+        while(i < array1.length) {    
+            results[r++] = array1[i++];            
+        }
+    
+        while(j < array2.length) {
+            results[r++] = array2[j++];      
+        } 
+    
+        return results;
+}
+    
+}
