@@ -7,30 +7,30 @@ namespace Algorithms.Stacks
     {
         public string RemoveOuterParentheses(string S)
         {
-            Stack<char> stack = new Stack<char>();
-
             string res = "";
 
-            foreach (char c in S)
-            {
-                if (c == '(')
-                {
-                    if (stack.Count > 0)
-                        res = String.Concat(res, "(");
+			int counter = 0;
+			
+			foreach (char c in S)        
+			{
+				if (c == '(')   
+				{
+					if (counter > 0)   
+						res = String.Concat(res, "(");
 
-                    stack.Push(c);
-                }
+					counter++;
+				}
 
-                if (c == ')')
-                {
-                    stack.Pop();
+				if (c == ')')            
+				{
+					counter--;
+	   
+					if (counter > 0)
+							res = String.Concat(res, ")");                
+				}
+			}
 
-                    if (stack.Count > 0)
-                        res = String.Concat(res, ")");
-                }
-            }
-
-            return res;
+			return res;
         }
     }
 }
