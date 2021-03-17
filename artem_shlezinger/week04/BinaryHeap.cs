@@ -2,57 +2,108 @@
 {
     class BinaryHeap
     {
-        private void Sink(int[] heap, int sp, int len)
+        public int Len { get; private set; }
+
+        int[] Heap; 
+
+        public BinaryHeap(int[] items)
+        {
+            Heap = items;
+            MakeHeap();
+        }
+
+        private void Sink(int sp, int len)
         {
             while ((sp + 1) * 2 - 1 < len)
             {
                 int p = (sp + 1) * 2 - 1;
 
-                if (p + 1 < len && heap[p + 1] > heap[p] && heap[p + 1] > heap[sp])
+                if (p + 1 < len && Heap[p + 1] > Heap[p] && Heap[p + 1] > Heap[sp])
                     p++;
 
-                if (heap[sp] > heap[p] && (p + 1 >= len || heap[sp] > heap[p + 1]))
+                if (Heap[sp] >= Heap[p] && (p + 1 >= len || Heap[sp] >= Heap[p + 1]))
                     break;
 
-                int h = heap[sp];
-                heap[sp] = heap[p];
-                heap[p] = h;
+                int h = Heap[sp];
+                Heap[sp] = Heap[p];
+                Heap[p] = h;
 
                 sp = p;
             }
         }
 
-        public void MakeHeap(int[] heap)
+        private void MakeHeap()
         {
-            int i = (heap.Length - 1) / 2;
+            Len = Heap.Length - 1;
+            int i = Len / 2;
+
             while(i >= 0)
             {
-                Sink(heap, i, heap.Length);
+                Sink(i, Len + 1);
                 i--;
             }
         }
        
 
-        public void HeapSort(int[] heap)
+        public int DelMax()
         {
-            MakeHeap(heap);
+            int h = Heap[0];
+            Heap[0] = Heap[Len];
+            Heap[Len] = 0;
+            Len--;
 
-            int len = heap.Length;
+            Sink(0, Len + 1);
+
+            return h;
+        }
+
+
+        private void Swim(int i)
+        {
+            while (i > 0)
+            {
+                int h = Heap[(i - 1) / 2];
+
+                if (h < Heap[i])
+                {
+                    Heap[(i - 1) / 2] = Heap[i];
+                    Heap[i] = h;
+                }
+                else
+                    break;
+
+                i = (i - 1) / 2;
+            }
+        }
+
+        public void Insert(int item)
+        {
+            Len++;
+            Heap[Len] = item;
+            Swim(Len);
+        }
+
+
+        public void HeapSort()
+        {
+            MakeHeap();
+
+            int len = Heap.Length;
 
             for (int i = len - 1; i > 0; i--)
             {
-                int h = heap[0];
-                heap[0] = heap[i];
-                heap[i] = h;
+                int h = Heap[0];
+                Heap[0] = Heap[i];
+                Heap[i] = h;
 
-                Sink(heap, 0, i - 1);
+                Sink(0, i - 1);
             }
 
-            if(len > 1 && heap[0] > heap[1])
+            if(len > 1 && Heap[0] > Heap[1])
             {
-                int h = heap[1];
-                heap[1] = heap[0];
-                heap[0] = h;
+                int h = Heap[1];
+                Heap[1] = Heap[0];
+                Heap[0] = h;
             }
         }
     }
