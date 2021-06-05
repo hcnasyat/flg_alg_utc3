@@ -8,37 +8,37 @@ namespace Algorithms
     {
 
         Dictionary<int, IList<int>> dict = new Dictionary<int, IList<int>>();
-        
-		public IList<IList<int>> LevelOrder(TreeNode root)
-		{         
-			Method(root, 0);
-	  
-			var res = dict.OrderBy(k => k.Key).ToDictionary(o => o.Key, o => o.Value).Values.ToList();
-	   
-			return res;
-		}
 
-			
-		void Method(TreeNode node, int level)
-		{
-			if (node == null) 
-				return;
+        public IList<IList<int>> LevelOrder(TreeNode root)
+        {
+            Method(root, 0);
 
-			Method(node.left, level+1);
+            var res = dict.OrderBy(k => k.Key).ToDictionary(o => o.Key, o => o.Value).Values.ToList();
+
+            return res;
+        }
 
 
-			if (dict.ContainsKey(level))    
-				dict[level].Add(node.val);
-			else     
-			{  
-				var i = new List<int>();  
-				i.Add(node.val);
-					
-				dict.Add(level, i);
-			}
+        void Method(TreeNode node, int level)
+        {
+            if (node == null)
+                return;
 
-	   
-			Method(node.right, level+1);
-		}
+            Method(node.left, level + 1);
+
+
+            if (dict.ContainsKey(level))
+                dict[level].Add(node.val);
+            else
+            {
+                var i = new List<int>();
+                i.Add(node.val);
+
+                dict.Add(level, i);
+            }
+
+
+            Method(node.right, level + 1);
+        }
     }
 }
